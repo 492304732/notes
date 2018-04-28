@@ -347,16 +347,6 @@ Full GC
 
 对整个堆进行整理，包括Young、Tenured和Perm。Full GC因为需要对整个对进行回收，所以比Scavenge GC要慢，因此应该尽可能减少Full GC的次数。在对JVM调优的过程中，很大一部分工作就是对于FullGC的调节。
 
-#### java 8 移除了 Perm Gen，加入了 Meta Space
-
-![image](https://images2015.cnblogs.com/blog/584866/201704/584866-20170426154633834-741444326.jpg)
-
-原因：
-- 移除永久代是为融合HotSpot JVM与 JRockit VM而做出的努力，因为JRockit没有永久代，不需要配置永久代。
-- 由于永久代内存经常不够用或发生内存泄露，爆出异常java.lang.OutOfMemoryError: PermGen
-
-元空间与永久代的区别：
-- 元空间的本质和永久代类似，都是对JVM规范中方法区的实现。不过元空间与永久代之间最大的区别在于：元空间并不在虚拟机中，而是使用本地内存。
 
 
 
