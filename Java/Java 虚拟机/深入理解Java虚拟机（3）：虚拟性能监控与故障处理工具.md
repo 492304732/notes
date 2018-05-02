@@ -154,3 +154,124 @@ Jconsole 对堆不同区域的监控图：
 ![jconsole](https://upload-images.jianshu.io/upload_images/1341067-f7d9b4850f1d304f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### 2.2 线程监控 (jstack)
+
+JConsole 的“线程”标签页相当于可视化jstack，可以监控线程的状态。前面提到线程长时间停顿的主要原因有：等待外部资源（数据库连接、网络资源、设备资源等）、死循环、锁等待（活锁和死锁）。下面通过代码演示一下这几种情况。
+
+#### 2.2.1 线程等待演示
+
+```java
+public class BusyThread {
+
+    /**
+     * 线程死循环演示
+     */
+    public static void createBusyThread(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int i=0;
+                while(true){
+                    i++;
+                }
+            }
+        },"testBusyThread");
+        thread.start();
+    }
+
+    /**
+     * 线程锁等待演示
+     * @param lock
+     */
+    public static void createLockThread(final Object lock){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (lock){
+                    try{
+                        lock.wait();
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        },"testLockThread");
+        thread.start();
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        br.readLine();
+        createBusyThread();
+        br.readLine();
+        Object obj = new Object();
+        createLockThread(obj);
+    }
+
+}
+```
+
+监控结果如下：
+
+- main 线程： 堆栈追踪显示，BufferedInputStream 在 readBytes 方法等待 System.in 输入。这时线程为 Runnable 状态，Runnable 状态的线程会被分配运行时间，但 readBytes 方法检查到流没有更新时会立即返回执行令牌，这种等待只消耗很小的 CPU 资源。
+
+![main.png](https://upload-images.jianshu.io/upload_images/1341067-204898b7f17d6ced.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+- testBusyThread 线程：堆栈追踪看到线程一直在 BusyThread.java 24 行停留，即停留在while(true)死循环语句中。这时线程为Runnable 状态，而且没有归还线程执行令牌的动作，会在空循环上用尽全部执行时间知道线程切换，这种等待会消耗较多的 CPU 资源。
+
+![testBusyThread.png](https://upload-images.jianshu.io/upload_images/1341067-4577c5a3d8d2d14b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+- testLockThread 线程：堆栈追踪显示 testLockThread 线程在等待 lock 对象的 notify 或 notifyAll 方法的出现，线程这时候处于 WAITING 状态，在被唤醒前不会被分配执行时间。
+
+![testLockThread.png](https://upload-images.jianshu.io/upload_images/1341067-ad5e0d55155c4a86.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+#### 2.2.2 死锁代码演示
+
+下面代码有导致死锁的概率，大概运行 2-3 次会遇到线程死锁。造成死锁的原因是 Integer.valueOf() 方法基于减少对象创建次数和节省内存的考虑，[-128,127] 的数字会被缓存，代码中 100 次 Integer.valueOf(2),Integer.valueOf(1) 一共只返回了两个不同的对象。
+
+```java
+public class SynAddRunnable implements Runnable {
+    private int a,b;
+    public SynAddRunnable(int a,int b){
+        this.a = a;
+        this.b = b;
+    }
+
+    @Override
+    public void run() {
+        synchronized (Integer.valueOf(a)){
+            synchronized (Integer.valueOf(b)){
+                System.out.println(a+b);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 100; i++) {
+            new Thread(new SynAddRunnable(1,2)).start();
+            new Thread(new SynAddRunnable(2,1)).start();
+        }
+    }
+}
+```
+
+ 出现线程死锁后，点击 JConsole 线程监控页面的检测死锁，可以看到死锁的详情。
+
+- 线程90：状态为 BLOCKED 等待 Integer@1d619db 对象，这个对象的持有者是线程57
+
+![死锁1.png](https://upload-images.jianshu.io/upload_images/1341067-bfbcaf9d8a62a762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+- 线程57：状态为 BLOCKED 等待 Integer@1520934 对象，这个对象的持有者是线程90
+
+![死锁2.png](https://upload-images.jianshu.io/upload_images/1341067-5f1d4fc0067ecece.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+两个线程互相等待对方释放资源，产生了死锁，导致线程无法继续执行。
+
+### 2、Visual VM：多合一故障处理工具
+
+Visual VM 的 功能更加强大，除了JConsole的运行监控功能外，还提供了故障处理、性能分析等功能。
+
+自动更新插件时，发现默认下载地址已经迁移，需要查找当前版本的下载地址并修改设置。
+
+Visual VM 插件下载地址：https://visualvm.github.io/pluginscenters.html
+
+书上介绍了 heapdump、Profiler、BTrace 工具，未在自动安装插件后找到对应标签，待学习。
