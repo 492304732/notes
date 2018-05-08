@@ -418,3 +418,12 @@ maven 的 package 命令为三种不同环境打包结果：
 
 各个环境 assembly 的配置文件不相同
 
+### 四、配置文件迁移
+
+为了发布平台可以自由的发布应用到各环境而不用重新打包应用，所以引入了外部的依赖 jar，进行配置的统一管理。
+
+wiki 地址：http://wiki.sfbest.com/display/ARCH/Application+Config
+
+本次迁移使用了 com.teclick.framework，能通过虚拟机启动参数指定环境
+
+一次打包多环境配置还可以用 spring-profile 实现：https://www.cnblogs.com/jason0529/p/6567373.html
