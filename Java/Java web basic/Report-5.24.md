@@ -16,6 +16,8 @@
 
 
 
+[TOC]
+
 # Servlet
 
 ## 一、Servlet 原理
@@ -227,8 +229,8 @@ URL的写法也有2种方式：绝对路径和相对路径。相对路径使用.
 
 
 
-### 三、Requset & Response 程序示例
 
+## 三、Requset & Response 程序示例
 - Servlet 表单提交与展示（获取请求信息、设置相应信息、转发 Forward）
 - Servlet 路径跳转（绝对路径和相对路径）
 

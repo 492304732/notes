@@ -96,8 +96,8 @@ ServletContext表示Servlet应用程序。每个Web应用程序只有一个上�
 ```java
 java.lang.Object getAttribute(java.lang.String name)
 java.util.Enumeration<java.lang.String> getAttributeNames()
-void setAttribute(java.lang.String name, java.lang.Object object)
-void removeAttribute(java.lang.String name)
+void setAttribute(String name, Object object)
+void removeAttribute(String name)
 ```
 
 
