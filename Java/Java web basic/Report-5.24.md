@@ -52,14 +52,14 @@ Servlet 不能直接运行，要放在web容器中才能使用。与客户端打
 
 ### 3、Servlet 继承关系
 
-- **ServletConfig  **Servlet的配置信息，常用来在Servlet初始化时进行信息传递
+- **ServletConfig ** Servlet的配置信息，常用来在Servlet初始化时进行信息传递
 - **Servlet** 定义Servlet生命周期调用的方法：init()、service()、destroy()
 
 
-- **GenericServlet  **与协议无关的Servlet，实现了Servlet和ServletConfig接口
+- **GenericServlet ** 与协议无关的Servlet，实现了Servlet和ServletConfig接口
 
 
-- **HttpServlet  **基于HTTP协议的实现类
+- **HttpServlet ** 基于HTTP协议的实现类
 
 ![](https://images2017.cnblogs.com/blog/1007017/201709/1007017-20170901134328562-261318272.png)
 
@@ -79,7 +79,7 @@ Servlet 的自定义初始化可以通过配置 web.xml 文件，或者重写Ser
 
 ### 3、常用类
 
-####（1）ServletConfig
+#### （1）ServletConfig
 
 通过Servlet 的 getServletContext 方法获得。
 
