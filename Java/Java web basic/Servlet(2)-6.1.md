@@ -1,6 +1,6 @@
 ------
 
-@Description：Report of Servlet Basic, Part 1
+@Description：Report of Servlet Basic, Part 2
 
 @Date：2018.6.1
 
@@ -47,9 +47,9 @@ html 注释，会发送给客户端
 
 ### 2、JSP 中九大隐式对象
 
-Servlet容器会传递几个对象给它运行的Servlet。例如，可以通过Servlet的service方法拿到HttpServletRequest和HttpServletResponse对象，以及可以通过init方法访问到ServletConfig对象。此外，可以通过调用HttpServletRequest对象的getSession方法访问到HttpSession对象。
+Servlet 容器会传递几个对象给它运行的 Servlet。例如，可以通过 Servlet 的 service 方法拿到 HttpServletRequest 和 HttpServletResponse 对象，以及可以通过init方法访问到 ServletConfig 对象。此外，可以通过调用 HttpServletRequest 对象的 getSession 方法访问到 HttpSession 对象。
 
-在JSP中，可以通过使用隐式对象来访问上述对象。表3.1所示为JSP隐式对象。
+在 JSP 中，可以通过使用隐式对象来访问上述对象。表3.1所示为 JSP 隐式对象。
 
 | 对象          | 类型                                     |
 | ----------- | -------------------------------------- |
@@ -141,7 +141,7 @@ exception对象是一个包含上一页抛出的异常的包装器。它通常�
 
 ##  JSP指令
 
-指令是JSP语法元素的第一种类型。它们指示JSP转换器如何翻译JSP页面为Servlet。
+指令是 JSP 语法元素的第一种类型。它们指示 JSP 转换器如何翻译 JSP 页面为 Servlet。
 
 ### 1、page指令
 
