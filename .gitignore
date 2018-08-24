@@ -1,4 +1,9 @@
-/Java/Java 虚拟机/分享/*.pdf
-/demo/ServletDemo/.idea
+# 忽略 md 导出 pdf
+/notes/**/*.pdf
+
+# 忽略 idea
 **/*.iml
 **/.idea/
+
+# 忽略编译后文件
+**/target/
