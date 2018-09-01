@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.demo.solrj.dao.MalfunctionMapper" >
+  <resultMap id="BaseResultMap" type="com.demo.solrj.domain.Malfunction" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="module" property="module" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="report_by" property="reportBy" jdbcType="VARCHAR" />
+    <result column="follow_by" property="followBy" jdbcType="VARCHAR" />
+    <result column="solve_start_time" property="solveStartTime" jdbcType="TIMESTAMP" />
+    <result column="solve_end_time" property="solveEndTime" jdbcType="TIMESTAMP" />
+    <result column="solve_state" property="solveState" jdbcType="INTEGER" />
+    <result column="solution" property="solution" jdbcType="VARCHAR" />
+    <result column="system" property="system" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, title, description, module, type, report_by, follow_by, solve_start_time, solve_end_time, 
+    solve_state, solution, system
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from malfunction
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from malfunction
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.demo.solrj.domain.Malfunction" >
+    insert into malfunction (id, title, description, 
+      module, type, report_by, 
+      follow_by, solve_start_time, solve_end_time, 
+      solve_state, solution, system
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{module,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{reportBy,jdbcType=VARCHAR}, 
+      #{followBy,jdbcType=VARCHAR}, #{solveStartTime,jdbcType=TIMESTAMP}, #{solveEndTime,jdbcType=TIMESTAMP}, 
+      #{solveState,jdbcType=INTEGER}, #{solution,jdbcType=VARCHAR}, #{system,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.demo.solrj.domain.Malfunction" >
+    insert into malfunction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="module != null" >
+        module,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="reportBy != null" >
+        report_by,
+      </if>
+      <if test="followBy != null" >
+        follow_by,
+      </if>
+      <if test="solveStartTime != null" >
+        solve_start_time,
+      </if>
+      <if test="solveEndTime != null" >
+        solve_end_time,
+      </if>
+      <if test="solveState != null" >
+        solve_state,
+      </if>
+      <if test="solution != null" >
+        solution,
+      </if>
+      <if test="system != null" >
+        system,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="module != null" >
+        #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="reportBy != null" >
+        #{reportBy,jdbcType=VARCHAR},
+      </if>
+      <if test="followBy != null" >
+        #{followBy,jdbcType=VARCHAR},
+      </if>
+      <if test="solveStartTime != null" >
+        #{solveStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="solveEndTime != null" >
+        #{solveEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="solveState != null" >
+        #{solveState,jdbcType=INTEGER},
+      </if>
+      <if test="solution != null" >
+        #{solution,jdbcType=VARCHAR},
+      </if>
+      <if test="system != null" >
+        #{system,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.demo.solrj.domain.Malfunction" >
+    update malfunction
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="module != null" >
+        module = #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="reportBy != null" >
+        report_by = #{reportBy,jdbcType=VARCHAR},
+      </if>
+      <if test="followBy != null" >
+        follow_by = #{followBy,jdbcType=VARCHAR},
+      </if>
+      <if test="solveStartTime != null" >
+        solve_start_time = #{solveStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="solveEndTime != null" >
+        solve_end_time = #{solveEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="solveState != null" >
+        solve_state = #{solveState,jdbcType=INTEGER},
+      </if>
+      <if test="solution != null" >
+        solution = #{solution,jdbcType=VARCHAR},
+      </if>
+      <if test="system != null" >
+        system = #{system,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.demo.solrj.domain.Malfunction" >
+    update malfunction
+    set title = #{title,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      module = #{module,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      report_by = #{reportBy,jdbcType=VARCHAR},
+      follow_by = #{followBy,jdbcType=VARCHAR},
+      solve_start_time = #{solveStartTime,jdbcType=TIMESTAMP},
+      solve_end_time = #{solveEndTime,jdbcType=TIMESTAMP},
+      solve_state = #{solveState,jdbcType=INTEGER},
+      solution = #{solution,jdbcType=VARCHAR},
+      system = #{system,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>
