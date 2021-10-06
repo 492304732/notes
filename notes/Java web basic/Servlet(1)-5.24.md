@@ -6,15 +6,15 @@
 
 @Auther：Sujin Guo
 
-@Reference: [1] https://blog.csdn.net/qq_26676207/article/details/51023327
+@Reference:
+
+​            [1] https://blog.csdn.net/qq_26676207/article/details/51023327
 
 ​			[2] https://www.w3cschool.cn/servlet/servlet-intro.html
 
 ​			[3]《Servlet & Jsp &Spring MVC 初学指南》
 
 ------
-
-
 
 [TOC]
 
@@ -24,11 +24,11 @@
 
 Servlet 接口定义了一套 Java 处理网络请求的规范，即如何处理 HTTP 请求，并返回结果。
 
-Servlet 不能直接运行，要放在web容器中才能使用。与客户端打交道的是web容器（如tomcat），容器接收Http请求报文，将请求内容转化为 HttpRequest 的Java类，传入Servlet 进行逻辑操作，再将封装Http响应内容的 HttpResponse 转换为 Http 响应报文返回给客户端。
+Servlet 不能直接运行，要放在web容器中才能使用。与客户端打交道的是web容器（如tomcat），容器接收 Http 请求报文，将请求内容转化为 HttpRequest 的 Java 类，传入 Servlet 进行逻辑操作，再将封装 Http 响应内容的 HttpResponse 转换为 Http 响应报文返回给客户端。
 
 ### 1、Servlet 生命周期
 
-- Servlet 通过调用 **init ()** 方法进行初始化。初始化时，会创建ServletConfig对象，传入Servlet的成员变量。
+- Servlet 通过调用 **init ()** 方法进行初始化。初始化时，会创建 ServletConfig 对象，传入 Servlet 的成员变量。
 - Servlet 调用 **service()** 方法来处理客户端的请求。service() 方法检查 HTTP 请求类型（GET、POST、PUT、DELETE 等），并调用 doGet、doPost、doPut，doDelete 等方法。
 - Servlet 通过调用 **destroy()** 方法终止（结束）。
 
@@ -52,11 +52,11 @@ Servlet 不能直接运行，要放在web容器中才能使用。与客户端打
 
 ### 3、Servlet 继承关系
 
-- **ServletConfig ** Servlet的配置信息，常用来在Servlet初始化时进行信息传递
-- **Servlet** 定义Servlet生命周期调用的方法：init()、service()、destroy()
+- **ServletConfig ** Servlet 的配置信息，常用来在 Servlet 初始化时进行信息传递
+- **Servlet** 定义 Servlet 生命周期调用的方法：init()、service()、destroy()
 
 
-- **GenericServlet ** 与协议无关的Servlet，实现了Servlet和ServletConfig接口
+- **GenericServlet ** 与协议无关的 Servlet，实现了 Servlet 和 ServletConfig 接口
 
 
 - **HttpServlet ** 基于HTTP协议的实现类
@@ -69,13 +69,17 @@ Servlet 不能直接运行，要放在web容器中才能使用。与客户端打
 
 ### 1、编写 Servlet 流程
 
-编写一个Servlet程序大体上需要3个步骤：继承HttpServlet-->重写doGet（）或者doPost（）方法-->在web.xml中注册Servlet。
+编写一个Servlet程序大体上需要3个步骤：
+
+```
+继承HttpServlet --> 重写doGet()或者doPost()方法 --> 在web.xml中注册Servlet。
+```
 
 新语法中，可以用 @WebServlet(name = "MyServlet", urlPatterns = { "/my" }) 这样的注解来注册servlet。
 
 ### 2、Servlet 自定义初始化
 
-Servlet 的自定义初始化可以通过配置 web.xml 文件，或者重写Servlet的init()方法实现。
+Servlet 的自定义初始化可以通过配置 web.xml 文件，或者重写 Servlet 的 init() 方法实现。
 
 ### 3、常用类
 
@@ -83,10 +87,10 @@ Servlet 的自定义初始化可以通过配置 web.xml 文件，或者重写Ser
 
 通过Servlet 的 getServletContext 方法获得。
 
-当Servlet容器初始化Servlet时，Servlet容器会给Servlet的init方法传入一个ServletConfig。ServletConfig中存放着Servlet的初始化信息，可通过@WebServlet或web.xml配置。
+当 Servlet 容器初始化 Servlet 时，Servlet 容器会给 Servlet 的 init 方法传入一个 ServletConfig。ServletConfig 中存放着 Servlet 的初始化信息，可通过 @WebServlet 或 web.xml 配置。
 
 ```java
-//示例
+// 示例
 @WebServlet(name = "ServletConfigDemoServlet",
   urlPatterns = { "/servletConfigDemo" },
   initParams = {
@@ -105,9 +109,9 @@ Servlet 的自定义初始化可以通过配置 web.xml 文件，或者重写Ser
 
 通过 ServletConfig 的 getServletContext 方法获得
 
-ServletContext 表示 Servlet 应用程序。每个Web应用程序只有一个上下文。在将一个应用程序同时部署到多个容器的分布式环境中，每台Java虚拟机上的Web应用都会有一个ServletContext对象。
+ServletContext 表示 Servlet 应用程序。每个Web应用程序只有一个上下文。在将一个应用程序同时部署到多个容器的分布式环境中，每台Java虚拟机上的Web应用都会有一个 ServletContext 对象。
 
-通过在ServletConfig中调用getServletContext方法，可以获得ServletContext。ServletContext可以共享从应用程序中访问到的信息，并且可以动态注册Web对象。
+通过在 ServletConfig 中调用 getServletContext 方法，可以获得 ServletContext。ServletContext 可以共享从应用程序中访问到的信息，并且可以动态注册Web对象。
 
 ```java
 java.lang.Object getAttribute(java.lang.String name)
@@ -132,8 +136,7 @@ void removeAttribute(String name)
 
 ### 1、ServletRequest
 
-对于每一个HTTP请求，Servlet容器都会创建一个 ServletRequest 实例，并将它传给Servlet的Service方法。
-ServletRequest 封装了关于这个请求的信息。
+对于每一个HTTP请求，Servlet 容器都会创建一个 ServletRequest 实例，并将它传给 Servlet 的 Service方法。ServletRequest 封装了关于这个请求的信息。
 
 getParameter() 是最常用的方法，可以获取表单(form)的参数值。
 
@@ -192,8 +195,8 @@ HttpServletResponse 继承了 ServletResponse
 request.getRequestDispatcher("/somePage.jsp").forward(request, response); 
 ```
 
-1. servlet将请求交给Web应用的另一部分RequestDispatcher.forward(request,response) 方法的调它们属于同一个访问请求和响应过程
-2. 浏览器以正常方式得到响应，把它显示给用户（在浏览器的地址栏上没有变化，用户不知道发生过请求分派）
+1.  servlet 将请求交给 Web 应用的另一部分 `RequestDispatcher.forward(request, response)`  方法的调用，它们属于同一个访问请求和响应过程。
+2.  浏览器以正常方式得到响应，把它显示给用户（在浏览器的地址栏上没有变化，用户不知道发生过请求分派）。
 
 **Redirect:** 
 
@@ -201,7 +204,7 @@ request.getRequestDispatcher("/somePage.jsp").forward(request, response);
 response.sendRedirect(String location);
 ```
 
-1. servlet在响应上请求sendRedirect(aString)
+1. servlet 在响应上请求 sendRedirect(aString)
 2. HTTP响应有一个状态码“301”，和一个“Location”首部，这个首部值是一个URL
 3. 浏览器得到响应，发现“301”状态码，并寻找“Location”首部，由此建立一个新的请求（在浏览器的地址栏里URL改变了）
 
