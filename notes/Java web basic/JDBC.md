@@ -24,7 +24,7 @@ JDBC 驱动程序实现了 JDBC API 中定义的接口。JDK附带的`Java.sql`�
   ```
 
   ```java
-  //DirverManager 静态方法
+  // DirverManager 静态方法
   Driver myDriver = new oracle.jdbc.driver.OracleDriver();
   DriverManager.registerDriver( myDriver );
   ```
@@ -84,7 +84,7 @@ conn.setAutoCommit(false);
 #### 提交和回滚
 
 ```java
-try{
+try {
    //Assume a valid connection object conn
    conn.setAutoCommit(false);
    Statement stmt = conn.createStatement();
@@ -96,7 +96,7 @@ try{
    stmt.executeUpdate(SQL);
    // If there is no error.
    conn.commit();
-}catch(SQLException se){
+} catch(SQLException se) {
    // If there is any error.
    conn.rollback();
 }
@@ -107,7 +107,7 @@ try{
 可以在事务中定义逻辑回滚点。 如果通过保存点(`Savepoint`)发生错误时，则可以使用回滚方法来撤消所有更改或仅保存保存点之后所做的更改。
 
 ```java
-try{
+try {
    //Assume a valid connection object conn
    conn.setAutoCommit(false);
    Statement stmt = conn.createStatement();
@@ -122,7 +122,7 @@ try{
    // If there is no error, commit the changes.
    conn.commit();
 
-}catch(SQLException se){
+} catch(SQLException se) {
    // If there is any error.
    conn.rollback(savepoint1);
 }
@@ -134,7 +134,7 @@ try{
 
 批量处理允许将相关的SQL语句分组到批处理中，并通过对数据库的一次调用来提交它们，一次执行完成与数据库之间的交互。一次向数据库发送多个SQL语句时，可以减少通信开销，从而提高性能。
 
-`Statement`，`PreparedStatement`和`CallableStatement` 都可以进行批处理操作。
+`Statement`，`PreparedStatement` 和 `CallableStatement`  都可以进行批处理操作。
 
 #### 使用 PrepareStatement 对象进行批处理
 
@@ -150,22 +150,28 @@ try{
 ```java
 // Create SQL statement
 String SQL = "INSERT INTO Employees (id, first, last, age) VALUES(?, ?, ?, ?)";
+
 // Create PrepareStatement object
 PreparedStatemen pstmt = conn.prepareStatement(SQL);
+
 //Set auto-commit to false
 conn.setAutoCommit(false);
+
 // Set the variables
 pstmt.setInt( 1, 400 );
 pstmt.setString( 2, "JDBC" );
 pstmt.setString( 3, "Li" );
 pstmt.setInt( 4, 33 );
+
 // Add it to the batch
 pstmt.addBatch();
+
 // Set the variables
 pstmt.setInt( 1, 401 );
 pstmt.setString( 2, "CSharp" );
 pstmt.setString( 3, "Liang" );
 pstmt.setInt( 4, 31 );
+
 // Add it to the batch
 pstmt.addBatch();
 
@@ -183,4 +189,8 @@ conn.commit();
 ## JDBC 流
 
 `PreparedStatement`对象可以使用输入和输出流来提供参数数据。例如，读取文件中的数据，将数据存入数据库；读取数据库中的值，将这些值存入文件。文件中数据内容的格式为 xml。
+
+JDBC流式查询原理：https://www.jianshu.com/p/c7c5dbe63019
+
+MySQL边算边发：https://baijiahao.baidu.com/s?id=1685695066022066931&wfr=spider&for=pc
 

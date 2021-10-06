@@ -27,3 +27,4 @@
 wget --no-check-certificate https://freed.ga/github/shadowsocksR.sh; bash shadowsocksR.sh
 
 wget -N --no-check-certificate https://freed.ga/kernel/ruisu.sh && bash ruisu.sh
+

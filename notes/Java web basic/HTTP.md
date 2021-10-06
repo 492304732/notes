@@ -169,7 +169,7 @@ CONNECT www.example.com:443 HTTP/1.1
 
 -  **403 Forbidden** ：请求被拒绝，服务器端没有必要给出拒绝的详细理由。
 
--  **404 Not Found** 
+-  **404 Not Found**
 
 ## 5XX 服务器错误
 
